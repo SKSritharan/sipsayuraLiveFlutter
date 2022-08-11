@@ -56,7 +56,7 @@ class JoinMeetingController extends GetxController {
     late String token = prefs.getString("Token")!;
     try {
       Uri url =
-          Uri.parse("http://192.168.8.205:4000/join/info/${getMeetingId()}");
+          Uri.parse("http://192.168.8.175:4000/join/info/${getMeetingId()}");
       final response = await http.post(url, headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, HEAD",

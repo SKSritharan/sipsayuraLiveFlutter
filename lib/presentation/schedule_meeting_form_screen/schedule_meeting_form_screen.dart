@@ -1227,7 +1227,7 @@ class ScheduleMeetingFormScreen
                                                     ? Row(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceBetween,
+                                                                .spaceAround,
                                                         children: [
                                                           SizedBox(
                                                             height: 10.0,

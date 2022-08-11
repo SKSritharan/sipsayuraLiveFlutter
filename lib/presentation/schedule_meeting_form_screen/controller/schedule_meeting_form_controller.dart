@@ -211,7 +211,7 @@ class ScheduleMeetingFormController extends GetxController {
     isLoading.value = true;
     print(token);
     try {
-      Uri url = Uri.parse("http://192.168.8.205:4000/meetings/createMeeting");
+      Uri url = Uri.parse("http://192.168.8.175:4000/meetings/createMeeting");
       final response = await http.post(url, headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, HEAD",
@@ -300,6 +300,28 @@ class ScheduleMeetingFormController extends GetxController {
               textColor: Colors.white,
               fontSize: 16.0);
           update();
+          break;
+        case 404:
+          Fluttertoast.showToast(
+              msg: "The server can not find the requested resource.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          isLoading.value = false;
+          break;
+        case 408:
+          Fluttertoast.showToast(
+              msg: "Request Timeout.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          isLoading.value = false;
           break;
         default:
           apiResponse.value = "Error during communicating the server.";

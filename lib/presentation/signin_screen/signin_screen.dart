@@ -328,40 +328,103 @@ class SignInScreen extends GetWidget<Signup02Controller> {
     }
   }
 
-  final url = "http://192.168.8.205:4000/accounts/authenticate";
+  final url = "http://192.168.8.175:4000/accounts/authenticate";
 
   /**
    * This fuction use for login
    */
   void postDataLogin() async {
     controller.isLoading.value = true;
+
     try {
       final response = await post(Uri.parse(url), body: {
         "email": emailController.text,
         "password": passwordController.text
       });
+print(response.statusCode);
+      switch (response.statusCode) {
+        case 200:
+          var parsedJson = json.decode(response.body);
+          print('${parsedJson.runtimeType} : $parsedJson');
+          firstName = parsedJson['firstName'];
+          id = parsedJson['id'];
+          lastName = parsedJson['lastName'];
+          email = parsedJson['email'];
+          phone = parsedJson['phone'];
+          role = parsedJson['role'];
+          created = parsedJson['created'];
+          isVerified = parsedJson['isVerified'];
+          jwtToken = parsedJson['jwtToken'];
 
-      if (response.statusCode == 200) {
-        var parsedJson = json.decode(response.body);
-        print('${parsedJson.runtimeType} : $parsedJson');
-        firstName = parsedJson['firstName'];
-        id = parsedJson['id'];
-        lastName = parsedJson['lastName'];
-        email = parsedJson['email'];
-        phone = parsedJson['phone'];
-        role = parsedJson['role'];
-        created = parsedJson['created'];
-        isVerified = parsedJson['isVerified'];
-        jwtToken = parsedJson['jwtToken'];
+          savePreferences(id, firstName, lastName, email, phone, role, created,
+              isVerified, jwtToken);
+          controller.isLoading.value = false;
+          toastsuccessful();
+          onTapgodashboard();
 
-        savePreferences(id, firstName, lastName, email, phone, role, created,
-            isVerified, jwtToken);
-        controller.isLoading.value = false;
-        toastsuccessful();
-        onTapgodashboard();
-      } else {
-        controller.isLoading.value = false;
-        toastunsuccessful();
+          break;
+        case 500:
+          Fluttertoast.showToast(
+              msg: "Internal Server Error.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 503:
+          Fluttertoast.showToast(
+              msg: "Service Unavailable.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+
+          break;
+        case 400:
+          Fluttertoast.showToast(
+              msg: "Bad Request.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 404:
+          Fluttertoast.showToast(
+              msg: "The server can not find the requested resource.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 408:
+          Fluttertoast.showToast(
+              msg: "Request Timeout.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        default:
+          toastunsuccessful();
+
+          controller.isLoading.value = false;
+
+          break;
       }
 
       //print(response.body);

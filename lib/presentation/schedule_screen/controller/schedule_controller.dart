@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,30 +56,102 @@ class ScheduleController extends GetxController with StateMixin<dynamic> {
       late String token = prefs.getString("Token")!;
       try {
         Uri url =
-            Uri.parse("http://192.168.8.205:4000/meetings/getMeetingByUserID");
+            Uri.parse("http://192.168.8.175:4000/meetings/getMeetingByUserID");
         final response = await http.post(url, headers: {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, HEAD",
           "Access-Control-Allow-Credentials": "true",
           "authorization": "Bearer ${token}",
         }, body: {});
-        var convertDataToJson = jsonDecode(response.body) as List;
-        data = convertDataToJson;
-        for (var index = 0; index < data.length; index++) {
-          if (new DateTime.now().isAfter(DateFormat("yyyy-MM-dd hh:mm").parse(
-              '${data[index]["scheduled_at_Date"].toString()} ${data[index]["end_Time"].toString()} '))) {
-            if (!pastMeetings.contains(data[index]["meeting_id"])) {
-              pastMeetings.add(data[index]);
-            }
-          } else {
-            if (!futureMeetings.contains(data[index]["meeting_id"])) {
-              futureMeetings.add(data[index]);
-            }
-          }
-        }
 
-        isLoading.value = false;
-        update();
+        switch (response.statusCode) {
+          case 200:
+            var convertDataToJson = jsonDecode(response.body) as List;
+            data = convertDataToJson;
+            for (var index = 0; index < data.length; index++) {
+              if (new DateTime.now().isAfter(DateFormat("yyyy-MM-dd hh:mm").parse(
+                  '${data[index]["scheduled_at_Date"].toString()} ${data[index]["end_Time"].toString()} '))) {
+                if (!pastMeetings.contains(data[index]["meeting_id"])) {
+                  pastMeetings.add(data[index]);
+                }
+              } else {
+                if (!futureMeetings.contains(data[index]["meeting_id"])) {
+                  futureMeetings.add(data[index]);
+                }
+              }
+            }
+
+            isLoading.value = false;
+
+            update();
+            break;
+          case 500:
+            Fluttertoast.showToast(
+                msg: "Internal Server Error.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            update();
+            break;
+          case 503:
+            Fluttertoast.showToast(
+                msg: "Service Unavailable.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            update();
+            break;
+          case 400:
+            Fluttertoast.showToast(
+                msg: "Bad Request.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            update();
+            break;
+          case 404:
+            Fluttertoast.showToast(
+                msg: "The server can not find the requested resource.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            isLoading.value = false;
+            break;
+          case 408:
+            Fluttertoast.showToast(
+                msg: "Request Timeout.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            isLoading.value = false;
+            break;
+          default:
+            Fluttertoast.showToast(
+                msg: "Error during communicating the server.",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+            update();
+            break;
+        }
       } catch (er) {
         print(er.toString());
         isLoading.value = false;

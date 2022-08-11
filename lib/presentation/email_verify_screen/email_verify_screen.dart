@@ -198,10 +198,76 @@ class EmailveryScreen extends GetWidget<EmailveryController> {
         "token":_Sendotp.text
       });
       print(response.body);
+
+      switch (response.statusCode) {
+        case 200:
+          controller.isLoading.value=false;
+          toastsuccessful();
+          onTapBtnSignin();
+          break;
+        case 500:
+          Fluttertoast.showToast(
+              msg: "Internal Server Error.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 503:
+          Fluttertoast.showToast(
+              msg: "Service Unavailable.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+
+          break;
+        case 400:
+          Fluttertoast.showToast(
+              msg: "Bad Request.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 404:
+          Fluttertoast.showToast(
+              msg: "The server can not find the requested resource.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        default:
+          Fluttertoast.showToast(
+              msg: "Something went wrong please try again later.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+
+          controller.isLoading.value = false;
+
+          break;
+      }
+
+    } catch (err) {
       controller.isLoading.value=false;
-      toastsuccessful();
-      onTapBtnSignin();
-    } catch (err) {}
+    }
   }
 
   void toastsuccessful() => Fluttertoast.showToast(
