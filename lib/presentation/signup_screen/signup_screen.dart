@@ -473,7 +473,7 @@ class SignUpScreen extends GetWidget<Signup04Controller> {
     }
   }
 
-  final url = "http://192.168.8.205:4000/accounts/register";
+  final url = "http://192.168.8.175:4000/accounts/egister";
   void sing_up() async {
     controller.isLoading.value = true;
     try {
@@ -487,36 +487,103 @@ class SignUpScreen extends GetWidget<Signup04Controller> {
         "acceptTerms": "true"
       });
       print(response.body);
-      var responseText = jsonDecode(response.body);
-      controller.isLoading.value = false;
-      if (responseText["message"] ==
-          "Email and Phone number is already registered.") {
-        toastEmailAndPhoneNumberAllReadyExist();
-        // controller.isEmailUnique.value =false;
-        // controller.isPhoneUnique.value =false;
-      } else if (responseText["message"] == "Email is already registered.") {
-        toastEmailAllReadyExist();
-        // controller.isEmailUnique.value =false;
-        // controller.isPhoneUnique.value =true;
-      } else if (responseText["message"] ==
-          "Phone number is already registered.") {
-        toastPhoneNumberAllReadyExist();
-        // controller.isPhoneUnique.value =false;
-        // controller.isEmailUnique.value =true;
-      } else if (responseText["message"].contains('Can\'t send mail')) {
-        toastEmailNotValid();
-        // controller.isEmailValid.value=false;
-      } else {
-        controller.isLoading.value = false;
-        toastSuccessful();
-        emailVerify();
+
+      print(response.statusCode);
+
+      switch (response.statusCode) {
+        case 200:
+          var responseText = jsonDecode(response.body);
+          controller.isLoading.value = false;
+          if (responseText["message"] ==
+              "Email and Phone number is already registered.") {
+            toastEmailAndPhoneNumberAllReadyExist();
+            // controller.isEmailUnique.value =false;
+            // controller.isPhoneUnique.value =false;
+          } else if (responseText["message"] ==
+              "Email is already registered.") {
+            toastEmailAllReadyExist();
+            // controller.isEmailUnique.value =false;
+            // controller.isPhoneUnique.value =true;
+          } else if (responseText["message"] ==
+              "Phone number is already registered.") {
+            toastPhoneNumberAllReadyExist();
+            // controller.isPhoneUnique.value =false;
+            // controller.isEmailUnique.value =true;
+          } else if (responseText["message"].contains('Can\'t send mail')) {
+            toastEmailNotValid();
+            // controller.isEmailValid.value=false;
+          } else {
+            controller.isLoading.value = false;
+            toastSuccessful();
+            emailVerify();
+          }
+          break;
+        case 500:
+          Fluttertoast.showToast(
+              msg: "Internal Server Error.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 503:
+          Fluttertoast.showToast(
+              msg: "Service Unavailable.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+
+          break;
+        case 400:
+          Fluttertoast.showToast(
+              msg: "Bad Request.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        case 404:
+          Fluttertoast.showToast(
+              msg: "The server can not find the requested resource.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          controller.isLoading.value = false;
+          break;
+        default:
+          Fluttertoast.showToast(
+              msg: "Something went wrong please try again later.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0);
+
+          controller.isLoading.value = false;
+
+          break;
       }
 
       // toastSuccessful();
       // Emailverfy();
     } catch (err) {
       controller.isLoading.value = false;
-      toastUnsuccessful();
+      // toastUnsuccessful();
+
     }
   }
 
