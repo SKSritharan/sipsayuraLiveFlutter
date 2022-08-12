@@ -433,7 +433,7 @@ class SignInScreen extends GetWidget<Signup02Controller> {
     }
     on TimeoutException catch (err) {
       Fluttertoast.showToast(
-          msg: "Request eout.",
+          msg: "Request Timeout.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
