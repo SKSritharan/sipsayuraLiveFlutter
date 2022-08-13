@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -62,11 +64,15 @@ class ScheduleController extends GetxController with StateMixin<dynamic> {
           "Access-Control-Allow-Methods": "GET, HEAD",
           "Access-Control-Allow-Credentials": "true",
           "authorization": "Bearer ${token}",
-        }, body: {});
+        }, body: {}).timeout(Duration(seconds: 10),onTimeout: (){
+          throw TimeoutException("Timeout");
+        });
 
         switch (response.statusCode) {
           case 200:
             var convertDataToJson = jsonDecode(response.body) as List;
+            pastMeetings = [];
+            futureMeetings = [];
             data = convertDataToJson;
             for (var index = 0; index < data.length; index++) {
               if (new DateTime.now().isAfter(DateFormat("yyyy-MM-dd hh:mm").parse(
@@ -83,15 +89,15 @@ class ScheduleController extends GetxController with StateMixin<dynamic> {
             print("done");
             pastMeetings.sort((a, b) => DateFormat("yyyy-MM-dd hh:mm")
                 .parse(
-                '${b["scheduled_at_Date"].toString()} ${b["end_Time"].toString()} ')
+                    '${b["scheduled_at_Date"].toString()} ${b["end_Time"].toString()} ')
                 .compareTo(DateFormat("yyyy-MM-dd hh:mm").parse(
-                '${a["scheduled_at_Date"].toString()} ${a["end_Time"].toString()} ')));
+                    '${a["scheduled_at_Date"].toString()} ${a["end_Time"].toString()} ')));
 
             futureMeetings.sort((a, b) => DateFormat("yyyy-MM-dd hh:mm")
                 .parse(
-                '${a["scheduled_at_Date"].toString()} ${a["end_Time"].toString()} ')
+                    '${a["scheduled_at_Date"].toString()} ${a["end_Time"].toString()} ')
                 .compareTo(DateFormat("yyyy-MM-dd hh:mm").parse(
-                '${b["scheduled_at_Date"].toString()} ${b["end_Time"].toString()} ')));
+                    '${b["scheduled_at_Date"].toString()} ${b["end_Time"].toString()} ')));
             isLoading.value = false;
             update();
 
@@ -166,9 +172,40 @@ class ScheduleController extends GetxController with StateMixin<dynamic> {
             update();
             break;
         }
+      } on TimeoutException catch (err) {
+        Fluttertoast.showToast(
+            msg: "Request Timeout.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        isLoading.value = false;
+        print(err);
+      } on SocketException catch (err) {
+        print(err);
+        Fluttertoast.showToast(
+            msg: "Error: Socket Exception.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        isLoading.value = false;
       } catch (er) {
         print(er.toString());
         isLoading.value = false;
+        Fluttertoast.showToast(
+            msg: "Something went wrong please try again later.",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+
         update();
       }
       print("done");

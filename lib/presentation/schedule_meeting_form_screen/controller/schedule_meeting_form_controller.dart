@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -239,7 +241,13 @@ class ScheduleMeetingFormController extends GetxController {
             isModeratorOnlyMessageState.toString(),
         'mute_on_start': isMuteOnStartState.toString(),
         'allow_mods_to_eject_cameras': isWebCamOnlyForModeratorState.toString()
-      });
+      }).timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => http.Response(
+          '{"statusCode":"408"}',
+          408,
+        ),
+      );
       var parsedJson = jsonDecode(response.body);
 
       switch (response.statusCode) {
@@ -301,27 +309,19 @@ class ScheduleMeetingFormController extends GetxController {
               fontSize: 16.0);
           update();
           break;
-        case 404:
-          Fluttertoast.showToast(
-              msg: "The server can not find the requested resource.",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
-          isLoading.value = false;
-          break;
+
         case 408:
+          apiResponse.value = "Connection Timeout";
+          isResponseSuccess.value = false;
           Fluttertoast.showToast(
-              msg: "Request Timeout.",
+              msg: "Connection Timeout",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               backgroundColor: Colors.red,
               textColor: Colors.white,
               fontSize: 16.0);
-          isLoading.value = false;
+          update();
           break;
         default:
           apiResponse.value = "Error during communicating the server.";
@@ -339,20 +339,56 @@ class ScheduleMeetingFormController extends GetxController {
       }
       isLoading.value = false;
       update();
-    } catch (er) {
-      isLoading.value = false;
-      apiResponse.value = ("Internal Server Error, Please try again later.");
-      isResponseSuccess.value = false;
-      update();
+    } on OSError catch (err) {
+      print(err);
+    } on TimeoutException catch (err) {
       Fluttertoast.showToast(
-          msg: "Failed to create Meeting",
+          msg: "Request Timeout.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
+      isLoading.value = false;
+      print(err);
+    } on SocketException catch (err) {
+      print(err);
+      Fluttertoast.showToast(
+          msg: "Error: Socket Exception.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      isLoading.value = false;
+    } catch (err) {
+      print(err);
+      Fluttertoast.showToast(
+          msg: "Something went wrong please try again.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      isLoading.value = false;
     }
+    // } catch (er) {
+    //     isLoading.value = false;
+    //     apiResponse.value = ("Internal Server Error, Please try again later.");
+    //     isResponseSuccess.value = false;
+    //     update();
+    //     Fluttertoast.showToast(
+    //         msg: "Failed to create Meeting",
+    //         toastLength: Toast.LENGTH_SHORT,
+    //         gravity: ToastGravity.BOTTOM,
+    //         timeInSecForIosWeb: 1,
+    //         backgroundColor: Colors.red,
+    //         textColor: Colors.white,
+    //         fontSize: 16.0);
+    //   }
     print("done");
     update();
     isLoading.value = false;

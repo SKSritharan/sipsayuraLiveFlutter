@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:http/http.dart'as http;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bbb_app/core/app_export.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -485,13 +487,19 @@ class SignUpScreen extends GetWidget<Signup04Controller> {
         "password": passwordController.text,
         "confirmPassword": compasswordController.text,
         "acceptTerms": "true"
-      });
-      print(response.body);
+      }).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => http.Response(
+          'timeout',
+          408,
+        ),
+      );
 
       print(response.statusCode);
 
       switch (response.statusCode) {
         case 200:
+          print(response.body);
           var responseText = jsonDecode(response.body);
           controller.isLoading.value = false;
           if (responseText["message"] ==
@@ -580,10 +588,50 @@ class SignUpScreen extends GetWidget<Signup04Controller> {
 
       // toastSuccessful();
       // Emailverfy();
-    } catch (err) {
+    }  on TimeoutException catch (err) {
+      Fluttertoast.showToast(
+          msg: "Request Timeout.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       controller.isLoading.value = false;
-      // toastUnsuccessful();
-
+      print(err);
+    } on HttpException catch (err) {
+      Fluttertoast.showToast(
+          msg: "Http error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      controller.isLoading.value = false;
+      print(err);
+    } on SocketException catch (err) {
+      print(err);
+      Fluttertoast.showToast(
+          msg: "Error: Socket Exception.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      controller.isLoading.value = false;
+    } catch (err) {
+      print(err);
+      Fluttertoast.showToast(
+          msg: "Error during communicating the server.",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      controller.isLoading.value = false;
     }
   }
 

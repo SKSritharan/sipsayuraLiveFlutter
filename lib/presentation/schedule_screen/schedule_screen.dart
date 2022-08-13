@@ -79,194 +79,189 @@ class ScheduleScreen extends GetWidget<ScheduleController> {
                       children: [
                         Expanded(
                           child: Container(
-                            width: size.width,
-                            child: controller.isInternetOn.value
-                                ? Container(
-                                    height: MediaQuery.of(context).size.height,
-                                    decoration: BoxDecoration(
-                                        color: ColorConstant.whiteA700,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: ColorConstant.black90028,
-                                              spreadRadius:
-                                                  getHorizontalSize(2.00),
-                                              blurRadius:
-                                                  getHorizontalSize(2.00),
-                                              offset: Offset(1, 2))
-                                        ]),
-                                    child: Stack(
-                                      alignment: Alignment.bottomLeft,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.topCenter,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                              left: getHorizontalSize(14.00),
-                                              top: getVerticalSize(0.00),
-                                              right: getHorizontalSize(14.00),
-                                            ),
-                                            child: RefreshIndicator(
-                                              onRefresh: () async {
-                                                refreshListview(context);
-                                              },
-                                              child: SingleChildScrollView(
-                                                child: Column(
-                                                  // mainAxisSize: MainAxisSize.min,
-                                                  // crossAxisAlignment:
-                                                  // CrossAxisAlignment.end,
-                                                  // mainAxisAlignment:
-                                                  // MainAxisAlignment.start,
-                                                  children: [
-                                                    Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                            left:
-                                                                getHorizontalSize(
-                                                                    6),
-                                                            top:
-                                                                getVerticalSize(
-                                                                    18.00),
-                                                          ),
-                                                          child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      border:
-                                                                          Border(
-                                                                              bottom:
-                                                                                  BorderSide(
-                                                                color: Colors
-                                                                    .black,
-                                                                width: 2.0,
-                                                              ))),
-                                                              child: Text(
-                                                                  "Upcoming Schedule"
-                                                                      .tr,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style: AppStyle
-                                                                      .textstylemontserratregular11
-                                                                      .copyWith(
-                                                                          fontSize:
-                                                                              getFontSize(15)))),
-                                                        )),
-                                                    controller.isLoading.value
-                                                        ? Container(
+                              width: size.width,
+                              child: controller.isInternetOn.value
+                                  ? Obx(() => Container(
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        decoration: BoxDecoration(
+                                            color: ColorConstant.whiteA700,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color:
+                                                      ColorConstant.black90028,
+                                                  spreadRadius:
+                                                      getHorizontalSize(2.00),
+                                                  blurRadius:
+                                                      getHorizontalSize(2.00),
+                                                  offset: Offset(1, 2))
+                                            ]),
+                                        child: Stack(
+                                          alignment: Alignment.bottomLeft,
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topCenter,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  left:
+                                                      getHorizontalSize(14.00),
+                                                  top: getVerticalSize(0.00),
+                                                  right:
+                                                      getHorizontalSize(14.00),
+                                                ),
+                                                child: RefreshIndicator(
+                                                  onRefresh: () async {
+                                                    refreshListview(context);
+                                                  },
+                                                  child: SingleChildScrollView(
+                                                    child: Column(
+                                                      // mainAxisSize: MainAxisSize.min,
+                                                      // crossAxisAlignment:
+                                                      // CrossAxisAlignment.end,
+                                                      // mainAxisAlignment:
+                                                      // MainAxisAlignment.start,
+                                                      children: [
+                                                        Align(
                                                             alignment: Alignment
-                                                                .center,
-                                                            child: Center(
-                                                                child: SizedBox(
-                                                                    height: 50,
-                                                                    width: 50,
-                                                                    child:
-                                                                        CircularProgressIndicator())),
-                                                          )
-                                                        : Align(
-                                                            alignment: Alignment
-                                                                .center,
+                                                                .centerLeft,
                                                             child: Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  left:
-                                                                      getHorizontalSize(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left:
+                                                                    getHorizontalSize(
+                                                                        6),
+                                                                top:
+                                                                    getVerticalSize(
+                                                                        18.00),
+                                                              ),
+                                                              child: Container(
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                          border:
+                                                                              Border(
+                                                                                  bottom:
+                                                                                      BorderSide(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    width: 2.0,
+                                                                  ))),
+                                                                  child: Text(
+                                                                      "Upcoming Schedule"
+                                                                          .tr,
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .left,
+                                                                      style: AppStyle
+                                                                          .textstylemontserratregular11
+                                                                          .copyWith(
+                                                                              fontSize: getFontSize(15)))),
+                                                            )),
+                                                        controller
+                                                                .isLoading.value
+                                                            ? Container(
+                                                                height: 400.0,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Center(
+                                                                    child: SizedBox(
+                                                                        height:
+                                                                            50,
+                                                                        width:
+                                                                            50,
+                                                                        child:
+                                                                            CircularProgressIndicator())),
+                                                              )
+                                                            : Align(
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: Padding(
+                                                                  padding: EdgeInsets.only(
+                                                                      left: getHorizontalSize(
                                                                           6.00),
-                                                                  top: getVerticalSize(
-                                                                      17.50),
-                                                                  right:
-                                                                      getHorizontalSize(
+                                                                      top: getVerticalSize(
+                                                                          17.50),
+                                                                      right: getHorizontalSize(
                                                                           0.61)),
-                                                              child: controller
-                                                                          .futureMeetings
-                                                                          .length ==
-                                                                      0
-                                                                  ? Container(
-                                                                      height:
-                                                                          200,
-                                                                      alignment:
-                                                                          Alignment
+                                                                  child: controller
+                                                                              .futureMeetings
+                                                                              .length ==
+                                                                          0
+                                                                      ? Container(
+                                                                          height:
+                                                                              400,
+                                                                          alignment: Alignment
                                                                               .center,
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Text(
-                                                                              "No meetings to show"),
-                                                                          TextButton(
-                                                                              onPressed: () => refreshListview(context),
-                                                                              child: Text(controller.isLoading.value ? "Please wait Refreshing List" : "Refresh"))
-                                                                        ],
-                                                                      ))
-                                                                  : ListView
-                                                                      .builder(
-                                                                      physics:
-                                                                          const NeverScrollableScrollPhysics(),
-                                                                      // scrollDirection: Axis.horizontal,
-                                                                      // physics:
-                                                                      //     BouncingScrollPhysics(),
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      itemCount: controller
-                                                                          .futureMeetings
-                                                                          .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        // controller
-                                                                        //     .data[index]["meetingName"].toString();
-                                                                        return GestureDetector(
-                                                                          onTap:
-                                                                              () {
-                                                                            controller.isUpcomingListClicked(index);
-                                                                            onTapBtnjoin(context);
-                                                                          },
                                                                           child:
-                                                                              ScheduleItemWidget(
-                                                                            duration:
-                                                                                controller.futureMeetings[index]["max_duration"].toString(),
-                                                                            date:
-                                                                                controller.futureMeetings[index]["scheduled_at_Date"].toString(),
-                                                                            time:
-                                                                                controller.futureMeetings[index]["scheduled_at_Time"].toString(),
-                                                                            meetingID:
-                                                                                controller.futureMeetings[index]["meeting_id"].toString(),
-                                                                            meetingName:
-                                                                                controller.futureMeetings[index]["name"].toString().replaceAll('%20', ' ').replaceAll('%27', '\''),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                    ),
-                                                            ),
-                                                          ),
-                                                  ],
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Text("No meetings to show"),
+                                                                              TextButton(onPressed: () => refreshListview(context), child: Text(controller.isLoading.value ? "Please wait Refreshing List" : "Refresh"))
+                                                                            ],
+                                                                          ))
+                                                                      : ListView
+                                                                          .builder(
+                                                                          physics:
+                                                                              const NeverScrollableScrollPhysics(),
+                                                                          // scrollDirection: Axis.horizontal,
+                                                                          // physics:
+                                                                          //     BouncingScrollPhysics(),
+                                                                          shrinkWrap:
+                                                                              true,
+                                                                          itemCount: controller
+                                                                              .futureMeetings
+                                                                              .length,
+                                                                          itemBuilder:
+                                                                              (context, index) {
+                                                                            // controller
+                                                                            //     .data[index]["meetingName"].toString();
+                                                                            return GestureDetector(
+                                                                              onTap: () {
+                                                                                controller.isUpcomingListClicked(index);
+                                                                                onTapBtnjoin(context);
+                                                                              },
+                                                                              child: ScheduleItemWidget(
+                                                                                duration: controller.futureMeetings[index]["max_duration"].toString(),
+                                                                                date: controller.futureMeetings[index]["scheduled_at_Date"].toString(),
+                                                                                time: controller.futureMeetings[index]["scheduled_at_Time"].toString(),
+                                                                                meetingID: controller.futureMeetings[index]["meeting_id"].toString(),
+                                                                                meetingName: controller.futureMeetings[index]["name"].toString().replaceAll('%20', ' ').replaceAll('%27', '\''),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                ),
+                                                              ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
+                                          ],
+                                        ),
+                                      ))
+                                  : Center(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "No Internet",
+                                            style: TextStyle(color: Colors.red),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "No Internet",
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                        IconButton(
-                                            onPressed: () =>
-                                                refreshListview(context),
-                                            icon: Icon(Icons.refresh))
-                                      ],
-                                    ),
-                                  ),
-                          ),
+                                          IconButton(
+                                              onPressed: () =>
+                                                  refreshListview(context),
+                                              icon: Icon(Icons.refresh))
+                                        ],
+                                      ),
+                                    )),
                         ),
                       ],
                     ),
@@ -277,179 +272,177 @@ class ScheduleScreen extends GetWidget<ScheduleController> {
                           child: Container(
                             width: size.width,
                             child: controller.isInternetOn.value
-                                ? Container(
-                                    height: MediaQuery.of(context).size.height,
-                                    decoration: BoxDecoration(
-                                        color: ColorConstant.whiteA700,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: ColorConstant.black90028,
-                                              spreadRadius:
-                                                  getHorizontalSize(2.00),
-                                              blurRadius:
-                                                  getHorizontalSize(2.00),
-                                              offset: Offset(1, 2))
-                                        ]),
-                                    child: Stack(
-                                      alignment: Alignment.bottomLeft,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.topCenter,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: getHorizontalSize(14.00),
-                                                top: getVerticalSize(0.00),
-                                                right:
-                                                    getHorizontalSize(14.00)),
-                                            child: RefreshIndicator(
-                                              onRefresh: () async {
-                                                refreshListview(context);
-                                              },
-                                              child: SingleChildScrollView(
-                                                child: Column(
-                                                  // mainAxisSize: MainAxisSize.min,
-                                                  // crossAxisAlignment:
-                                                  // CrossAxisAlignment.end,
-                                                  // mainAxisAlignment:
-                                                  // MainAxisAlignment.start,
-                                                  children: [
-                                                    Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                            left:
-                                                                getHorizontalSize(
-                                                                    6),
-                                                            top:
-                                                                getVerticalSize(
-                                                                    18.00),
-                                                          ),
-                                                          child: Container(
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      border:
-                                                                          Border(
-                                                                              bottom:
-                                                                                  BorderSide(
-                                                                color: Colors
-                                                                    .black,
-                                                                width: 2.0,
-                                                              ))),
-                                                              child: Text(
-                                                                  "Past Schedule"
-                                                                      .tr,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style: AppStyle
-                                                                      .textstylemontserratregular11
-                                                                      .copyWith(
-                                                                          fontSize:
-                                                                              getFontSize(15)))),
-                                                        )),
-                                                    controller.isLoading.value
-                                                        ? Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            child: Center(
-                                                                child: SizedBox(
-                                                                    height: 50,
-                                                                    width: 50,
-                                                                    child:
-                                                                        CircularProgressIndicator())),
-                                                          )
-                                                        : Align(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Padding(
-                                                              padding: EdgeInsets.only(
-                                                                  left:
-                                                                      getHorizontalSize(
-                                                                          6.00),
-                                                                  top: getVerticalSize(
-                                                                      17.50),
-                                                                  right:
-                                                                      getHorizontalSize(
-                                                                          0.61)),
-                                                              child: controller
-                                                                          .pastMeetings
-                                                                          .length ==
-                                                                      0
-                                                                  ? Container(
-                                                                      height:
-                                                                          200,
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                        children: [
-                                                                          Text(
-                                                                              "No meetings to show"),
-                                                                          TextButton(
-                                                                              onPressed: () => refreshListview(context),
-                                                                              child: Text(controller.isLoading.value ? "Please wait Refreshing List" : "Refresh"))
-                                                                        ],
-                                                                      ))
-                                                                  : ListView
-                                                                      .builder(
-                                                                      physics:
-                                                                          NeverScrollableScrollPhysics(),
-                                                                      // physics:
-                                                                      //     BouncingScrollPhysics(),
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      itemCount: controller
-                                                                          .pastMeetings
-                                                                          .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        return GestureDetector(
-                                                                          onTap:
-                                                                              () {
-                                                                            controller.isPastListClicked(index);
-                                                                            onTapBtnjoin(context);
-                                                                          },
-                                                                          child:
-                                                                              ScheduleItemWidget(
-                                                                            duration:
-                                                                                controller.pastMeetings[index]["max_duration"].toString(),
-                                                                            date:
-                                                                                controller.pastMeetings[index]["scheduled_at_Date"].toString(),
-                                                                            time:
-                                                                                controller.pastMeetings[index]["scheduled_at_Time"].toString(),
-                                                                            meetingID:
-                                                                                controller.pastMeetings[index]["meeting_id"].toString(),
-                                                                            meetingName:
-                                                                                controller.pastMeetings[index]["name"].toString().replaceAll('%20', ' ').replaceAll('%27', '\''),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                    ),
+                                ? Obx(() => Container(
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      decoration: BoxDecoration(
+                                          color: ColorConstant.whiteA700,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: ColorConstant.black90028,
+                                                spreadRadius:
+                                                    getHorizontalSize(2.00),
+                                                blurRadius:
+                                                    getHorizontalSize(2.00),
+                                                offset: Offset(1, 2))
+                                          ]),
+                                      child: Stack(
+                                        alignment: Alignment.bottomLeft,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topCenter,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left:
+                                                      getHorizontalSize(14.00),
+                                                  top: getVerticalSize(0.00),
+                                                  right:
+                                                      getHorizontalSize(14.00)),
+                                              child: RefreshIndicator(
+                                                onRefresh: () async {
+                                                  refreshListview(context);
+                                                },
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    // mainAxisSize: MainAxisSize.min,
+                                                    // crossAxisAlignment:
+                                                    // CrossAxisAlignment.end,
+                                                    // mainAxisAlignment:
+                                                    // MainAxisAlignment.start,
+                                                    children: [
+                                                      Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                              left:
+                                                                  getHorizontalSize(
+                                                                      6),
+                                                              top:
+                                                                  getVerticalSize(
+                                                                      18.00),
                                                             ),
-                                                          ),
-                                                  ],
+                                                            child: Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                        border:
+                                                                            Border(
+                                                                                bottom:
+                                                                                    BorderSide(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  width: 2.0,
+                                                                ))),
+                                                                child: Text(
+                                                                    "Past Schedule"
+                                                                        .tr,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                    style: AppStyle
+                                                                        .textstylemontserratregular11
+                                                                        .copyWith(
+                                                                            fontSize:
+                                                                                getFontSize(15)))),
+                                                          )),
+                                                      controller.isLoading.value
+                                                          ? Container(
+                                                              height: 400.0,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              width:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
+                                                              child: Center(
+                                                                  child: SizedBox(
+                                                                      height:
+                                                                          50,
+                                                                      width: 50,
+                                                                      child:
+                                                                          CircularProgressIndicator())),
+                                                            )
+                                                          : Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Padding(
+                                                                padding: EdgeInsets.only(
+                                                                    left: getHorizontalSize(
+                                                                        6.00),
+                                                                    top: getVerticalSize(
+                                                                        17.50),
+                                                                    right: getHorizontalSize(
+                                                                        0.61)),
+                                                                child: controller
+                                                                            .pastMeetings
+                                                                            .length ==
+                                                                        0
+                                                                    ? Container(
+                                                                        height:
+                                                                            400,
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .center,
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Text("No meetings to show"),
+                                                                            TextButton(
+                                                                                onPressed: () => refreshListview(context),
+                                                                                child: Text(controller.isLoading.value ? "Please wait Refreshing List" : "Refresh"))
+                                                                          ],
+                                                                        ))
+                                                                    : ListView
+                                                                        .builder(
+                                                                        physics:
+                                                                            NeverScrollableScrollPhysics(),
+                                                                        // physics:
+                                                                        //     BouncingScrollPhysics(),
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        itemCount: controller
+                                                                            .pastMeetings
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          return GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              controller.isPastListClicked(index);
+                                                                              onTapBtnjoin(context);
+                                                                            },
+                                                                            child:
+                                                                                ScheduleItemWidget(
+                                                                              duration: controller.pastMeetings[index]["max_duration"].toString(),
+                                                                              date: controller.pastMeetings[index]["scheduled_at_Date"].toString(),
+                                                                              time: controller.pastMeetings[index]["scheduled_at_Time"].toString(),
+                                                                              meetingID: controller.pastMeetings[index]["meeting_id"].toString(),
+                                                                              meetingName: controller.pastMeetings[index]["name"].toString().replaceAll('%20', ' ').replaceAll('%27', '\''),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                              ),
+                                                            ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
+                                        ],
+                                      ),
+                                    ))
                                 : Center(
                                     child: Column(
                                       children: [

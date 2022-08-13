@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../schedule_screen/controller/schedule_controller.dart';
@@ -55,107 +56,107 @@ class SignInScreen extends GetWidget<Signup02Controller> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: ColorConstant.whiteA700,
-      appBar: new AppBar(
-        backgroundColor: Colors.lightBlueAccent,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                  text: "lbl_sipsayura2".tr,
-                  style: TextStyle(
-                      color: ColorConstant.whiteA700,
-                      fontSize: getFontSize(18),
-                      fontFamily: 'Oldenburg',
-                      fontWeight: FontWeight.w500)),
-            ]),
-            textAlign: TextAlign.left),
-        centerTitle: true,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black54),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 0),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0), color: Colors.white),
-            child: Center(
-              child: SafeArea(
-                left: false,
-                top: false,
-                right: false,
-                bottom: false,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15.0,
-                    horizontal: 20.0,
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          const SizedBox(
-                            child: Center(
-                              child: Text(
-                                'Sign In', //Heading
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 30.0,
-                                  color: Colors.lightBlueAccent,
+          backgroundColor: ColorConstant.whiteA700,
+          appBar: new AppBar(
+            backgroundColor: Colors.lightBlueAccent,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            title: RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: "lbl_sipsayura2".tr,
+                      style: TextStyle(
+                          color: ColorConstant.whiteA700,
+                          fontSize: getFontSize(18),
+                          fontFamily: 'Oldenburg',
+                          fontWeight: FontWeight.w500)),
+                ]),
+                textAlign: TextAlign.left),
+            centerTitle: true,
+            elevation: 0.0,
+            iconTheme: IconThemeData(color: Colors.black54),
+          ),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 0, right: 0, top: 5, bottom: 0),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0), color: Colors.white),
+                child: Center(
+                  child: SafeArea(
+                    left: false,
+                    top: false,
+                    right: false,
+                    bottom: false,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15.0,
+                        horizontal: 20.0,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(
+                                child: Center(
+                                  child: Text(
+                                    'Sign In', //Heading
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 30.0,
+                                      color: Colors.lightBlueAccent,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          Padding(
-                            padding:
+                              const SizedBox(
+                                height: 20.0,
+                              ),
+                              Padding(
+                                padding:
                                 const EdgeInsets.only(left: 16.0, bottom: 8.0),
-                            child: TextFormField(
-                              textInputAction: TextInputAction.next,
-                              controller: emailController,
-                              //calling Defined email controllor
-                              keyboardType: TextInputType.text,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please Enter Email';
-                                }
-                                if (!RegExp(
+                                child: TextFormField(
+                                  textInputAction: TextInputAction.next,
+                                  controller: emailController,
+                                  //calling Defined email controllor
+                                  keyboardType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please Enter Email';
+                                    }
+                                    if (!RegExp(
                                         "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                                    .hasMatch(value)) {
-                                  return "Please Enter Valid Email";
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                labelText: "Email",
-                                labelStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black45,
-                                    fontStyle: FontStyle.italic),
-                                icon: Icon(Icons.mail,
-                                    color: Colors.lightBlueAccent),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide:
+                                        .hasMatch(value)) {
+                                      return "Please Enter Valid Email";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: const InputDecoration(
+                                    labelText: "Email",
+                                    labelStyle: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black45,
+                                        fontStyle: FontStyle.italic),
+                                    icon: Icon(Icons.mail,
+                                        color: Colors.lightBlueAccent),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide:
                                       BorderSide(color: Colors.lightBlueAccent),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide:
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
                                       BorderSide(color: Colors.lightBlueAccent),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
+                              Padding(
+                                padding:
                                 const EdgeInsets.only(left: 16.0, bottom: 8.0),
-                            child: Obx(() => TextFormField(
+                                child: Obx(() => TextFormField(
                                   onFieldSubmitted: (value) {
                                     onTapBtnSignIn(context);
                                   },
@@ -177,14 +178,14 @@ class SignInScreen extends GetWidget<Signup02Controller> {
                                     suffixIcon: IconButton(
                                         onPressed: () {
                                           controller.isPasswordVisibilityHidden
-                                                  .value =
-                                              !controller
-                                                  .isPasswordVisibilityHidden
-                                                  .value;
+                                              .value =
+                                          !controller
+                                              .isPasswordVisibilityHidden
+                                              .value;
                                         },
                                         icon: Icon(
                                           controller.isPasswordVisibilityHidden
-                                                  .value
+                                              .value
                                               ? Icons.visibility_off
                                               : Icons.visibility,
                                           color: Colors.lightBlueAccent,
@@ -205,85 +206,87 @@ class SignInScreen extends GetWidget<Signup02Controller> {
                                     ),
                                   ),
                                 )),
-                          ),
-                          const SizedBox(
-                            height: 30.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                height: 40,
-                                width: 150,
-                                child: Obx(() => ElevatedButton(
+                              ),
+                              const SizedBox(
+                                height: 30.0,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                    height: 40,
+                                    width: 150,
+                                    child: Obx(() => ElevatedButton(
                                       onPressed: controller.isLoading.value
                                           ? null
                                           : () {
-                                              onTapBtnSignIn(context);
-                                            },
+                                        onTapBtnSignIn(context);
+                                      },
                                       child: controller.isLoading.value
                                           ? Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  height: 10.0,
-                                                  width: 10.0,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                Text("Please wait",
-                                                    style:
-                                                        TextStyle(fontSize: 18))
-                                              ],
-                                            )
-                                          : Text(
-                                              'Sign In',
-                                              style: TextStyle(fontSize: 18),
+                                        mainAxisAlignment:
+                                        MainAxisAlignment
+                                            .spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            height: 10.0,
+                                            width: 10.0,
+                                            child:
+                                            CircularProgressIndicator(
+                                              color: Colors.white,
                                             ),
+                                          ),
+                                          Text("Please wait",
+                                              style:
+                                              TextStyle(fontSize: 18))
+                                        ],
+                                      )
+                                          : Text(
+                                        'Sign In',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
                                       style: ButtonStyle(
                                           foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
                                           backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.lightBlueAccent),
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.lightBlueAccent),
                                           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                               RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0),
+                                                  BorderRadius.circular(
+                                                      20.0),
                                                   side: const BorderSide(
                                                       color:
-                                                          Colors.lightBlueAccent)))),
+                                                      Colors.lightBlueAccent)))),
                                     )),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  const Text('Forgot Password '),
+                                  TextButton(
+                                    child: const Text(
+                                      'Reset',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.lightBlueAccent),
+                                    ),
+                                    onPressed: () {
+                                      onTapforgotpassword();
+                                    },
+                                  )
+                                ],
+                                mainAxisAlignment: MainAxisAlignment.center,
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              const Text('Forgot Password '),
-                              TextButton(
-                                child: const Text(
-                                  'Reset',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.lightBlueAccent),
-                                ),
-                                onPressed: () {
-                                  onTapforgotpassword();
-                                },
-                              )
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.center,
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -291,9 +294,7 @@ class SignInScreen extends GetWidget<Signup02Controller> {
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 
   // onTapImgMdiclose() {
@@ -342,7 +343,14 @@ class SignInScreen extends GetWidget<Signup02Controller> {
       final response = await post(Uri.parse(url), body: {
         "email": emailController.text,
         "password": passwordController.text
-      }).timeout(Duration(seconds: 10));
+      }).timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => http.Response(
+          'timeout',
+          408,
+        ),
+      );
+
       print(response.statusCode);
       switch (response.statusCode) {
         case 200:
@@ -390,7 +398,7 @@ class SignInScreen extends GetWidget<Signup02Controller> {
           break;
         case 400:
           Fluttertoast.showToast(
-              msg: "Email or password incorrect.",
+              msg: "Email or Password is Incorrect!",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
@@ -423,15 +431,12 @@ class SignInScreen extends GetWidget<Signup02Controller> {
           break;
         default:
           toastunsuccessful();
+
           controller.isLoading.value = false;
 
           break;
       }
-
-      //print(response.body);
-
-    }
-    on TimeoutException catch (err) {
+    } on TimeoutException catch (err) {
       Fluttertoast.showToast(
           msg: "Request Timeout.",
           toastLength: Toast.LENGTH_SHORT,
@@ -442,10 +447,21 @@ class SignInScreen extends GetWidget<Signup02Controller> {
           fontSize: 16.0);
       controller.isLoading.value = false;
       print(err);
-    }on SocketException catch (err) {
+    } on HttpException catch (err) {
+      Fluttertoast.showToast(
+          msg: "Http error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      controller.isLoading.value = false;
+      print(err);
+    } on SocketException catch (err) {
       print(err);
       Fluttertoast.showToast(
-          msg: "Request Timeout.",
+          msg: "Error: Socket Exception.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -456,20 +472,17 @@ class SignInScreen extends GetWidget<Signup02Controller> {
     } catch (err) {
       print(err);
       Fluttertoast.showToast(
-          msg: "Something went wrong please try again later.",
+          msg: "Error during communicating the server.",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 16.0);
-      controller.isLoading.value = false;}
+      controller.isLoading.value = false;
+    }
   }
 
-  /**
-   * toast message login
-   *
-   */
   void toastsuccessful() => Fluttertoast.showToast(
       msg: "Successfully Login!",
       toastLength: Toast.LENGTH_SHORT,
@@ -527,6 +540,17 @@ class SignInScreen extends GetWidget<Signup02Controller> {
   //   logindata.setString("paw", passwordController.text.toString());
   //   return saveToShared_Preferences();
   // }
+  onTimeout() {
+    Fluttertoast.showToast(
+        msg: "Request Timeout.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    controller.isLoading.value = false;
+  }
 
   getRefreshMeetings() {
     final controller = Get.put(ScheduleController());
@@ -538,6 +562,7 @@ class SignInScreen extends GetWidget<Signup02Controller> {
 
     //var save = logindata.getString("email").toString();
     //logindata.getString('email', email);
+    // ignore: deprecated_member_use
     return prefs.commit();
   }
 // saveToShared_Preferences()async {
